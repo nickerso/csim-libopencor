@@ -8,3 +8,14 @@ been wrapped with a [basic API](https://github.com/nickerso/csim/blob/devel/src/
 [libCellML](https://github.com/cellml/libcellml) that is much easier to build and install. This project attempts to develop
 a library that provides that minimal CSim API required for integration into the SED-ML Web Tools. It may have other uses at
 some point.
+
+## CSim2 application
+
+Basic application to run a simulation and save data.
+
+Assuming the static version of libOpenCOR has been built and installed, Windows configure, build, and run:
+```
+$> cmake -S . -B build\win -A x64
+$> cmake --build build\win --config Release
+$> build\win\Release\csim2.exe
+```
