@@ -46,14 +46,47 @@ int main(int argc, char* argv[])
     }
 
     auto modelFile = program.get<std::string>("model");
-    std::cout << "Model file: " << modelFile << std::endl;
-
+    
     auto file = libOpenCOR::File::create(modelFile);
     if (file->hasIssues()) {
         std::cerr << "Error: model file has issues" << std::endl;
         return 1;
+    } else {
+        std::cout << "Model file created successfully" << std::endl;
+    }
+
+    auto sedml = libOpenCOR::SedDocument::create(file);
+    if (sedml->hasIssues()) {
+        std::cerr << "Error: SED-ML document has issues" << std::endl;
+        return 1;
+    } else {
+        std::cout << "SED-ML document created successfully" << std::endl;
+    }
+
+    auto instance = sedml->instantiate();
+    if (instance->hasIssues()) {
+        std::cerr << "Error: SED-ML instance has issues" << std::endl;
+        return 1;
+    } else {
+        std::cout << "SED-ML instance created successfully" << std::endl;
     }
     
+    instance->run();
+    if (instance->hasIssues()) {
+        std::cerr << "Error: SED-ML instance run has issues" << std::endl;
+        return 1;
+    } else {
+        std::cout << "SED-ML instance run successfully" << std::endl;
+    }
+    
+    auto instanceTask = instance->tasks()[0];
+    auto x = instanceTask->state(0);
+    auto y = instanceTask->state(1);
+    auto z = instanceTask->state(2);
+    std::cout << "x, y, z" << std::endl;
+    for (int i = 0; i < x.size(); ++i) {
+        std::cout << x[i] << ", " << y[i] << ", " << z[i] << std::endl;
+    }
 
     return 0;
 }
