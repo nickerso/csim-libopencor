@@ -48,5 +48,12 @@ int main(int argc, char* argv[])
     auto modelFile = program.get<std::string>("model");
     std::cout << "Model file: " << modelFile << std::endl;
 
+    auto file = libOpenCOR::File::create(modelFile);
+    if (file->hasIssues()) {
+        std::cerr << "Error: model file has issues" << std::endl;
+        return 1;
+    }
+    
+
     return 0;
 }
